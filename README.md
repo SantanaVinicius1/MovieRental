@@ -1,5 +1,5 @@
 
-# MovieRental Exercise - Ansered
+# MovieRental Exercise - Answered
 
   
 
@@ -116,3 +116,4 @@ public async Task<IActionResult> SomeMethod()
 }
 ```
 This pattern helps centralize error handling, makes responses more predictable, and allows the application to map service level errors to proper HTTP status codes.
+
