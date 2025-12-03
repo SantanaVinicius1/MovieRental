@@ -66,7 +66,7 @@ For the payment providers, I decided to use an interface to define the behaviour
 To determine which payment provider should to be used based on the value of the entry, I decided to use the IKeyedServiceProvider, which allows the DI container to resolve the correct implementation at runtime, based on a key (in this case the _PaymentMethod_ property of a Rental object). 
 A different approach would be to use a Factory to handle the DI resolution manually, this way I could have a centralized and flexible place to apply more elaborate business rules, the use of logging, or even use other types (like enums) instead of strings to define the Service.
 
-The **IKeyedServiceProvider** was chosed mainly because it was simpler to use and the version of .NET used has native support to keyed services, but wheter the version was older or I needed a more flexible solution I'd probably go for the factory. 
+The **IKeyedServiceProvider** was chosen mainly because it was simpler to use and the version of .NET used has native support to keyed services, but wheter the version was older or I needed a more flexible solution I'd probably go for the factory. 
 
 
 ## Improvements
@@ -134,6 +134,7 @@ public Task RentalFeatures_SaveAsync_IsPaymentOk_CreateRental()
 public Task RentalFeatures_SaveAsync_IsPaymentFailed_ReturnNull()
 public Task RentalFeatures_SaveAsync_PaymentMethodNotExists_ThrowExceptionAsync()
 ```
+
 
 
 
