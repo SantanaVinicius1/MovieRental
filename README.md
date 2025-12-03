@@ -129,9 +129,10 @@ In our scenario, one specific mathod that could be tested is the one that handle
 
 Some tests examples could be:
 ```csharp
-public Task RentalFeatures_SaveAsync_IsPaymentOk_CreateRental();
-public Task RentalFeatures_SaveAsync_IsPaymentFailed_ReturnNull();
-public Task RentalFeatures_SaveAsync_PaymentMethodNotExists_ThrowErrorAsync();
+public Task RentalFeatures_SaveAsync_IsPaymentOk_CreateRental()
+public Task RentalFeatures_SaveAsync_IsPaymentFailed_ReturnNull()
+public Task RentalFeatures_SaveAsync_PaymentMethodNotExists_ThrowExceptionAsync()
 ```
+
 
 
