@@ -1,29 +1,52 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieRental.Contracts;
+using MovieRental.Customer;
 using MovieRental.Data;
+using MovieRental.PaymentProviders;
 
 namespace MovieRental.Rental
 {
 	public class RentalFeatures : IRentalFeatures
 	{
 		private readonly MovieRentalDbContext _movieRentalDb;
-		public RentalFeatures(MovieRentalDbContext movieRentalDb)
+		private readonly IKeyedServiceProvider _paymentsProvider;
+
+		public RentalFeatures(MovieRentalDbContext movieRentalDb, IKeyedServiceProvider paymentsProvider)
 		{
 			_movieRentalDb = movieRentalDb;
+			_paymentsProvider = paymentsProvider;
 		}
 
-		//TODO: make me async :(
-		public Rental Save(Rental rental)
+		public async Task<Rental> SaveAsync(CreateRentalRequest request)
 		{
-			_movieRentalDb.Rentals.Add(rental);
-			_movieRentalDb.SaveChanges();
-			return rental;
+			var rental = new Rental()
+			{
+				MovieId = request.MovieId,
+				CustomerId = request.CustomerId,
+				DaysRented = request.DaysRented,
+				PaymentMethod = request.PaymentMethod,
+			};
+
+			var pProvider = _paymentsProvider.GetRequiredKeyedService<IPaymentProvider>(rental.PaymentMethod);
+
+			if(await pProvider.Pay(10))
+			{
+                _movieRentalDb.Rentals.Add(rental);
+                await _movieRentalDb.SaveChangesAsync();
+                return rental;
+            }
+
+			return null;
 		}
 
-		//TODO: finish this method and create an endpoint for it
-		public IEnumerable<Rental> GetRentalsByCustomerName(string customerName)
+		public async Task<IEnumerable<Rental>> GetRentalsByCustomerAsync(int customerId)
 		{
-			return [];
-		}
-
+			return await _movieRentalDb.Rentals
+				.Include(r => r.Movie)
+				.Include(r => r.Customer)
+				.AsNoTracking()
+				.Where(r => r.CustomerId == customerId)
+				.ToListAsync();
+        }
 	}
 }

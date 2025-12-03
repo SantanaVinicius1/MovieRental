@@ -1,7 +1,9 @@
-﻿namespace MovieRental.Rental;
+﻿using MovieRental.Contracts;
+
+namespace MovieRental.Rental;
 
 public interface IRentalFeatures
 {
-	Rental Save(Rental rental);
-	IEnumerable<Rental> GetRentalsByCustomerName(string customerName);
+	Task<Rental> SaveAsync(CreateRentalRequest rental);
+	Task<IEnumerable<Rental>> GetRentalsByCustomerAsync(int customerId);
 }

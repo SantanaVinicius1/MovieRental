@@ -1,8 +1,8 @@
 ﻿namespace MovieRental.PaymentProviders
 {
-    public class MbWayProvider
+    public class MbWayProvider : IPaymentProvider
     {
-        public Task<bool> Pay(double price)
+        public Task<bool> Pay(double price) 
         {
             //ignore this implementation
             return Task.FromResult<bool>(true);

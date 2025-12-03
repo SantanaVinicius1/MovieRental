@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MovieRental.Contracts;
 using MovieRental.Movie;
 using MovieRental.Rental;
 
@@ -18,9 +19,15 @@ namespace MovieRental.Controllers
 
 
         [HttpPost]
-        public IActionResult Post([FromBody] Rental.Rental rental)
+        public async Task<IActionResult> Post([FromBody] CreateRentalRequest rental)
         {
-	        return Ok(_features.Save(rental));
+	        return Ok(await _features.SaveAsync(rental));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get(int customerId)
+        {
+            return Ok(await _features.GetRentalsByCustomerAsync(customerId));
         }
 
 	}

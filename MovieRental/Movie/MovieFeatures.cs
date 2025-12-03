@@ -1,4 +1,5 @@
-﻿using MovieRental.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MovieRental.Data;
 
 namespace MovieRental.Movie
 {
@@ -10,19 +11,19 @@ namespace MovieRental.Movie
 			_movieRentalDb = movieRentalDb;
 		}
 		
-		public Movie Save(Movie movie)
+		public async Task<Movie> SaveAsync(Movie movie)
 		{
 			_movieRentalDb.Movies.Add(movie);
 			_movieRentalDb.SaveChanges();
 			return movie;
 		}
 
-		// TODO: tell us what is wrong in this method? Forget about the async, what other concerns do you have?
-		public List<Movie> GetAll()
+		public async Task<IEnumerable<Movie>> GetAllAsync()
 		{
-			return _movieRentalDb.Movies.ToList();
+			return await _movieRentalDb
+				.Movies
+				.AsNoTracking()
+				.ToListAsync();
 		}
-
-
 	}
 }
