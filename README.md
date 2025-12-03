@@ -53,6 +53,7 @@ public async Task<IEnumerable<Movie>> GetAllAsync()
 
 
 **_"No exceptions are being caught in this api, how would you deal with these exceptions?"_**
+
 I decided to deal with the exceptions by using a middleware that implements the IExceptionHandler interface, and registering it as a global exception handler. This allows me to deal with concerns like logging, formating the response, and ensuring consistent error handling in the entire application.
 
   
@@ -133,6 +134,7 @@ public Task RentalFeatures_SaveAsync_IsPaymentOk_CreateRental()
 public Task RentalFeatures_SaveAsync_IsPaymentFailed_ReturnNull()
 public Task RentalFeatures_SaveAsync_PaymentMethodNotExists_ThrowExceptionAsync()
 ```
+
 
 
 
