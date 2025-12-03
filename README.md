@@ -6,7 +6,7 @@
 This is my revised version of this README file, alongside the questions there are my considerations.
 
 
-**The app is throwing an error when we start, please help us. Also, tell us what caused the issue.**
+**_"The app is throwing an error when we start, please help us. Also, tell us what caused the issue."_**
 
   
 The issue was caused by a wrong lifetime definition. The DbContext used by EF Core were using a scoped lifetime, and the RentalFeature service were being registered as a singleton: 
@@ -18,11 +18,11 @@ The issue was caused by a wrong lifetime definition. The DbContext used by EF Co
 I decided to register RentalFeatures as a scoped service because it makes sense that for each request I create a DbContext instance.
   
   
-**The rental class has a method to save, but it is not async, can you make it async and explain to us what is the difference?**
+**_"The rental class has a method to save, but it is not async, can you make it async and explain to us what is the difference?"_**
 
 The difference between an async and a "sync" method is that a "sync" method locks the thread that is is being executed on. For our method __Save()__ it means that the thread would be locked until EF Core finished saving the entry. A good pratice when working with EF Core  (or other I/O bound operations) is to use async/await pattern, which allows the thread to be released and used for other work while it waits for an _awaited_ operation to complete. This make the application more efficient and scalable.
 
-**In the MovieFeatures class, there is a method to list all movies, tell us your opinion about it.**
+**_"In the MovieFeatures class, there is a method to list all movies, tell us your opinion about it."_**
 
 Syntactically there is nothing wrong with the following: 
 
@@ -52,7 +52,7 @@ public async Task<IEnumerable<Movie>> GetAllAsync()
 
 
 
-**No exceptions are being caught in this api, how would you deal with these exceptions?**
+**_"No exceptions are being caught in this api, how would you deal with these exceptions?"_**
 I decided to deal with the exceptions by using a middleware that implements the IExceptionHandler interface, and registering it as a global exception handler. This allows me to deal with concerns like logging, formating the response, and ensuring consistent error handling in the entire application.
 
   
@@ -133,6 +133,7 @@ public Task RentalFeatures_SaveAsync_IsPaymentOk_CreateRental()
 public Task RentalFeatures_SaveAsync_IsPaymentFailed_ReturnNull()
 public Task RentalFeatures_SaveAsync_PaymentMethodNotExists_ThrowExceptionAsync()
 ```
+
 
 
 
