@@ -117,3 +117,21 @@ public async Task<IActionResult> SomeMethod()
 ```
 This pattern helps centralize error handling, makes responses more predictable, and allows the application to map service level errors to proper HTTP status codes.
 
+#### Validation and a better Error Handling 
+
+The API lacks validation. One good improvement would be to add validation to the endpoints, preventing wrong user input that could lead to errors.  
+Alongside these validations, the API could benefit from better error handling (even though I added a GlobalExceptionHandler for the exceptions) and a more structured method result, ensuring that the user can clearly understand what went wrong by receiving specific status codes and clear response messages.
+
+#### Testing
+One way o ensuring that the API is behaving as expected is by adding test (in this case unit tests).
+The methods used in the solution are simple and writing many unit tests for simple behaviours would be a overhead, but I think it is fair to mention that both the functionality and code quality could benefit from unit tests (if it was a growing application)
+In our scenario, one specific mathod that could be tested is the one that handles the creation of a rental (since it is the one with relatively more business logic)
+
+Some tests examples could be:
+```csharp
+public Task RentalFeatures_SaveAsync_IsPaymentOk_CreateRental();
+public Task RentalFeatures_SaveAsync_IsPaymentFailed_ReturnNull();
+public Task RentalFeatures_SaveAsync_PaymentMethodNotExists_ThrowErrorAsync();
+```
+
+
